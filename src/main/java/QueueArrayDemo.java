@@ -52,15 +52,78 @@ class QueueArray implements Queue{
     }
 
     // 数据元素 X 入队
-    public boolean enqueue(Object x){}
+    public boolean enqueue(Object x){
+        if(getSize() == capacity - 1){
+            return false;
+        }
+        else {
+            elements[rear + 1] = x;
+            rear = (rear + 1) % capacity;
+            return true;
+        }
+    }
 
     // 对首元素出队
-    public Object dequeue(){}
+    public Object dequeue(){
+        Object object = null;
+        if(isEmpty()){
+            return null;
+        }
+        else {
+            object = elements[front + 1];
+            front = (front + 1) % capacity;
+        }
+        return object;
+    }
 
     // 取对首元素
-    public Object getFront(){}
+    public Object getFront(){
+        Object object = null;
+        if(isEmpty()){
+            return null;
+        }
+        else {
+            object = elements[front + 1];
+        }
+        return object;
+    }
 
     // 置队列为空操作
-    public void setEmpty(){}
+    public void setEmpty(){
+        front = -1;
+        rear = -1;
+    }
 }
-public class QueueArrayDemo {}
+public class QueueArrayDemo {
+    public static void main(String[] args){
+        QueueArray queueArray = new QueueArray(10);
+        queueArray.enqueue(100);
+        System.out.println("元素100入队列。");
+        queueArray.enqueue(200);
+        System.out.println("元素200入队列。");
+        queueArray.enqueue(300);
+        System.out.println("元素300入队列。");
+        queueArray.enqueue(400);
+        System.out.println("元素400入队列。");
+        queueArray.enqueue(500);
+        System.out.println("元素500入队列。");
+
+        if(queueArray.isEmpty()){
+            System.out.println("队列当前为空。");
+        }
+        else {
+            System.out.println("队列当前不为空。");
+        }
+
+        System.out.println("队列中有" + queueArray.getSize() + "个元素。");
+        System.out.println("队首元素为：" + queueArray.getFront());
+
+        queueArray.dequeue();
+        System.out.println("一个元素出队列后，新队首元素为：" + queueArray.getFront());
+
+        queueArray.setEmpty();
+        if(queueArray.isEmpty()){
+            System.out.println("置队列为空操作后，队列内为空。");
+        }
+    }
+}
